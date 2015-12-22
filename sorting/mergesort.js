@@ -1,27 +1,31 @@
-// 1. divide array up into a bunch of arrays with length 1
-// 2
+console.log(mergesort([18, 39, 39, 41, 23, 15, 3, 9103, 24, 3, 52, 55, 55, 109, 204, 148, 5, 833]))
 
 function mergesort(array) {
   // divide unsorted list into sublists
-  array = array.map(function(value) {
-    return [value];
-  });
+  lists = array.map(function(value) { return [value]; });
 
   // combine sublists into merged list
-  combine(array)
+  return combine(lists);
 }
 
-// function that combines an array of arrays by merging
+// recursively combines an array of arrays by merging
 function combine(array) {
-  // base condition
-  if (array[0].constructor != Array) return array;
+  if (array.length === 1) return array[0];
 
   var result = [];
+  while(array.length > 0) {
+    if (array[1]) {
+      result.push( merge(array[0], array[1]) )
+      array.shift();
+    }
+    else result.push(array[0]);
+    array.shift();
+  }
 
+  return combine(result);
 }
 
-// [18, 39] [15, 23] [ 3, 55]
-
+// merge algorithm
 function merge(a, b) {
   var result = [];
   while(a.length > 0 && b.length > 0) {
@@ -31,9 +35,3 @@ function merge(a, b) {
   var remaining = (a.length > 0) ? a : b;
   return result.concat(remaining);
 }
-
-console.log(merge([18, 22, 39], [15, 23, 24]));
-
-// [18, 22, 39] [15, 23, 24]
-
-// console.log(mergesort([18, 39, 39, 41, 23, 15, 3, 9103, 24, 3, 52, 55, 55, 109, 204, 148, 5, 833]))
